@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "511375319275",
+    "project_id": "md19304-870c4",
+    "storage_bucket": "md19304-870c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511375319275:android:32ba19a684093ff8dc1eae",
+        "android_client_info": {
+          "package_name": "hoanglv.fpoly.lab01"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpTwZUQtr4gunZQRJkAuuoX9Y1BUCIe_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511375319275:android:ad8d4d546f413c10dc1eae",
+        "android_client_info": {
+          "package_name": "hoanglv.fpoly.petshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpTwZUQtr4gunZQRJkAuuoX9Y1BUCIe_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
