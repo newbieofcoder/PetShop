@@ -6,17 +6,23 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 
 import hoanglv.fpoly.petshop.Adapter.PetAdapter;
 import hoanglv.fpoly.petshop.DTO.Pets;
@@ -31,14 +37,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-
     private RecyclerView recyclerView;
     private PetAdapter petAdapter;
     private ImageView imgProfile;
     private List<Pets> petsList;
     private ImageView imgAdd;
+    private EditText txtSearch;
+    private final FirebaseAuth auth = FirebaseAuth.getInstance();
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(APIService.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
@@ -52,6 +61,35 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         imgProfile = view.findViewById(R.id.imgProfile);
         imgAdd = view.findViewById(R.id.imgadd);
+        txtSearch = view.findViewById(R.id.txtSearch);
+
+        txtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String key = txtSearch.getText().toString();
+                Call<List<Pets>> callSearch = apiService.search(key);
+                callSearch.enqueue(new Callback<List<Pets>>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
+                        if (response.isSuccessful()) {
+                            petsList.clear();
+                            petsList.addAll(response.body());
+                            petAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getActivity(), "Lỗi khi tìm kiếm thú cưng", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Pets>> call, Throwable throwable) {
+                        Log.e("Main", "onFailure: " + throwable.getMessage());
+                    }
+                });
+                return true;
+            }
+            return false;
+        });
+
         imgAdd.setOnClickListener(v -> {
             View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_item, null);
             EditText edtName = view1.findViewById(R.id.edt_name);
@@ -69,6 +107,7 @@ public class HomeFragment extends Fragment {
                     Pets newPet = new Pets(name, description, priceLong, "");
                     Call<List<Pets>> callAddPet = apiService.addPet(newPet);
                     callAddPet.enqueue(new Callback<List<Pets>>() {
+                        @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
                             if (response.isSuccessful()) {
@@ -83,7 +122,7 @@ public class HomeFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<List<Pets>> call, Throwable throwable) {
-                            Log.e("Main", "onFailure: " + throwable.getMessage());
+                            Log.e("Them", "onFailure: " + throwable.getMessage());
                         }
                     });
                 } else {
@@ -103,7 +142,8 @@ public class HomeFragment extends Fragment {
         Call<List<Pets>> call = apiService.getPets();
         call.enqueue(new Callback<List<Pets>>() {
             @Override
-            public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
+            public void onResponse
+                    (Call<List<Pets>> call, Response<List<Pets>> response) {
                 if (response.isSuccessful()) {
                     petsList = response.body();
                     petAdapter = new PetAdapter(getActivity(), petsList, new PetAdapter.OnPetClickListener() {
@@ -130,9 +170,10 @@ public class HomeFragment extends Fragment {
                                     pet.setPrice(newPriceLong);
                                     Call<List<Pets>> callUpdatePet = apiService.updatePet(pet);
                                     callUpdatePet.enqueue(new Callback<List<Pets>>() {
+                                        @SuppressLint("NotifyDataSetChanged")
                                         @Override
                                         public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
-                                            if (response.isSuccessful()){
+                                            if (response.isSuccessful()) {
                                                 petsList.clear();
                                                 petsList.addAll(response.body());
                                                 petAdapter.notifyDataSetChanged();
@@ -144,7 +185,7 @@ public class HomeFragment extends Fragment {
 
                                         @Override
                                         public void onFailure(Call<List<Pets>> call, Throwable throwable) {
-
+                                            Log.e("Update", "onFailure: " + throwable.getMessage());
                                         }
                                     });
                                 } else {
@@ -156,14 +197,19 @@ public class HomeFragment extends Fragment {
                         }
 
                         @Override
+                        public void onAddCart(Pets pet) {
+                            String email = Objects.requireNonNull(auth.getCurrentUser()).getEmail();
+                        }
+
+                        @Override
                         public void onLongClick(Pets pet) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                                     .setTitle("Xóa thú cưng?")
                                     .setMessage("Bạn có chắc chắn muốn xóa thú cưng này?")
                                     .setPositiveButton("OK", (dialog, which) -> {
-                                        Log.e("Main", "onLongClick: " + pet.get_id());
                                         Call<List<Pets>> callDeletePet = apiService.deletePet(pet.get_id());
                                         callDeletePet.enqueue(new Callback<List<Pets>>() {
+                                            @SuppressLint("NotifyDataSetChanged")
                                             @Override
                                             public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
                                                 petsList.clear();
@@ -174,7 +220,7 @@ public class HomeFragment extends Fragment {
 
                                             @Override
                                             public void onFailure(Call<List<Pets>> call, Throwable throwable) {
-                                                Log.e("Main", "onFailure: " + throwable.getMessage());
+                                                Log.e("Xoa", "onFailure: " + throwable.getMessage());
                                             }
                                         });
                                     })
@@ -191,12 +237,14 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Pets>> call, Throwable throwable) {
-                Log.e("Main", "onFailure: " + throwable.getMessage());
+                Log.e("GetPet", "onFailure: " + throwable.getMessage());
             }
         });
 
 
-        imgProfile.setOnClickListener(v -> {
+        imgProfile.setOnClickListener(v ->
+
+        {
             Intent intent = new Intent(getActivity(), Profile.class);
             startActivity(intent);
         });

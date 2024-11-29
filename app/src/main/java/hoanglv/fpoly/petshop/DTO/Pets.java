@@ -7,13 +7,13 @@ public class Pets {
     private String name;
     private String description;
     private long price;
-    private String url;
+    private String species;
 
-    public Pets(String name, String description, long price, String url) {
+    public Pets(String name, String description, long price, String species) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.url = url;
+        this.species = species;
     }
 
     public String get_id() {
@@ -48,11 +48,11 @@ public class Pets {
         this.price = price;
     }
 
-    public String getUrl() {
-        return url;
+    public String getSpecies() {
+        return species;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setSpecies(String species) {
+        this.species = species;
     }
 }

@@ -29,7 +29,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
     public interface OnPetClickListener {
         void onPetClick(Pets pet);
-
+        void onAddCart(Pets pet);
         void onLongClick(Pets pet);
     }
 
@@ -50,6 +50,9 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         holder.itemView.setOnLongClickListener(v -> {
             listener.onLongClick(petList.get(position));
             return true;
+        });
+        holder.addCart.setOnClickListener(v -> {
+            listener.onAddCart(petList.get(position));
         });
     }
 
