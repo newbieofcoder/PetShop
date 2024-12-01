@@ -1,17 +1,17 @@
 package hoanglv.fpoly.petshop.DTO;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Bill {
+public class Bill implements Serializable {
     private String _id;
-    private Date date;
+    private String date;
     private String email;
 
     public Bill() {
     }
 
-    public Bill(String _id, Date date, String email) {
-        this._id = _id;
+    public Bill(String date, String email) {
         this.date = date;
         this.email = email;
     }
@@ -24,11 +24,11 @@ public class Bill {
         this._id = _id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

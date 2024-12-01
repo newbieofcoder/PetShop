@@ -1,7 +1,6 @@
 package hoanglv.fpoly.petshop.Adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,8 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
     public interface OnPetClickListener {
         void onPetClick(Pets pet);
-        void onAddCart(Pets pet);
         void onLongClick(Pets pet);
+        void onDeleteClick(Pets pet);
     }
 
     @NonNull
@@ -44,15 +43,14 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         holder.petImage.setImageResource(R.drawable.dog);
         holder.petName.setText(petList.get(position).getName());
-        holder.petDescription.setText(petList.get(position).getDescription());
         holder.petPrice.setText(String.valueOf(petList.get(position).getPrice()));
+        holder.delete.setOnClickListener(v -> {
+            listener.onDeleteClick(petList.get(position));
+        });
         holder.itemView.setOnClickListener(v -> listener.onPetClick(petList.get(position)));
         holder.itemView.setOnLongClickListener(v -> {
             listener.onLongClick(petList.get(position));
             return true;
-        });
-        holder.addCart.setOnClickListener(v -> {
-            listener.onAddCart(petList.get(position));
         });
     }
 
@@ -62,20 +60,19 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         return petList.size();
     }
 
-    static class PetViewHolder extends RecyclerView.ViewHolder {
+    public static class PetViewHolder extends RecyclerView.ViewHolder {
         private final ImageView petImage;
         private final TextView petName;
         private final TextView petPrice;
-        private final TextView petDescription;
-        private final ImageView addCart;
+        private final ImageView delete;
 
         PetViewHolder(@NonNull View itemView) {
             super(itemView);
             petImage = itemView.findViewById(R.id.pet_image_1);
             petName = itemView.findViewById(R.id.txt_pet_name);
-            petDescription = itemView.findViewById(R.id.txt_pet_description);
             petPrice = itemView.findViewById(R.id.txt_pet_price);
-            addCart = itemView.findViewById(R.id.add_cart);
+            delete = itemView.findViewById(R.id.delete);
+
         }
     }
 }

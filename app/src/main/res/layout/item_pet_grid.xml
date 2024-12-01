@@ -30,22 +30,15 @@
 
         <TextView
             android:textSize="16sp"
-            android:id="@+id/txt_pet_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="description" />
-
-        <TextView
-            android:textSize="16sp"
             android:id="@+id/txt_pet_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="description" />
     </LinearLayout>
     <ImageView
-        android:id="@+id/add_cart"
+        android:id="@+id/delete"
         android:layout_weight="3"
-        android:src="@drawable/baseline_add_shopping_cart_24"
+        android:src="@drawable/baseline_delete_outline_24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

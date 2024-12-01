@@ -1,13 +1,18 @@
 package hoanglv.fpoly.petshop.DTO;
 
 
-public class Pets {
+import java.io.Serializable;
+
+public class Pets implements Serializable {
 
     private String _id;
     private String name;
     private String description;
     private long price;
     private String species;
+
+    public Pets() {
+    }
 
     public Pets(String name, String description, long price, String species) {
         this.name = name;

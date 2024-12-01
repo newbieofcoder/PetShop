@@ -17,9 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
         bottomNav = findViewById(R.id.nav_bottom);
         viewPager2 = findViewById(R.id.view_pager2);
         setUpViewPager2();
@@ -33,12 +31,10 @@ public class MainActivity extends AppCompatActivity {
     private void onNavBottomItemSelected(int id) {
         if(id == R.id.nav_home) {
             viewPager2.setCurrentItem(0);
-        } else if(id == R.id.nav_cart) {
+        }  else if(id == R.id.nav_category) {
             viewPager2.setCurrentItem(1);
-        } else if(id == R.id.nav_category) {
-            viewPager2.setCurrentItem(2);
         } else {
-            viewPager2.setCurrentItem(3);
+            viewPager2.setCurrentItem(2);
         }
     }
 
@@ -49,18 +45,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
                 switch (position) {
                     case 0:
                         bottomNav.getMenu().findItem(R.id.nav_home).setChecked(true);
                         break;
                     case 1:
-                        bottomNav.getMenu().findItem(R.id.nav_cart).setChecked(true);
-                        break;
-                    case 2:
                         bottomNav.getMenu().findItem(R.id.nav_category).setChecked(true);
                         break;
-                    case 3:
+                    case 2:
                         bottomNav.getMenu().findItem(R.id.nav_profile).setChecked(true);
                         break;
                 }

@@ -3,16 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    tools:context=".view.fragment.FriendFragment">
-
+    android:orientation="vertical"
+    android:gravity="center|top"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    tools:context=".fragment.CategoryFragment">
     <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to PetShop"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"
+        android:textStyle="bold" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:text="Category" />
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

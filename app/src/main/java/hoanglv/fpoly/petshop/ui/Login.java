@@ -27,14 +27,11 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_in);
 
 
         emailEditText = findViewById(R.id.email_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
-
-        loadEmailPass();
 
         Button btnSignIn = findViewById(R.id.btn_login);
         TextView navToSignUp = findViewById(R.id.navigate_to_login);
@@ -57,18 +54,9 @@ public class Login extends AppCompatActivity {
         });
 
         navToSignUp.setOnClickListener(v -> {
-            // Gọi hàm controller xét logic
             startActivity(new Intent(this, SignUp.class));
         });
 
     }
 
-
-    private void loadEmailPass() {
-        SharedPreferences sharedPreferences = getSharedPreferences("remember", MODE_PRIVATE);
-        String savedEmail = sharedPreferences.getString("email", "");
-        String savedPassword = sharedPreferences.getString("password", "");
-        emailEditText.setText(savedEmail);
-        passwordEditText.setText(savedPassword);
-    }
 }
