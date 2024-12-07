@@ -12,24 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import hoanglv.fpoly.petshop.DTO.XeMay;
+import hoanglv.fpoly.petshop.DTO.DienThoai_07122024;
 import hoanglv.fpoly.petshop.R;
 
 public class XeMayAdapter extends RecyclerView.Adapter<XeMayAdapter.PetViewHolder> {
-    private List<XeMay> xeMayList;
-    private final OnXeMayClickListener listener;
+    private List<DienThoai_07122024> xeDienThoaiList;
+    private final OnDienThoaiClickListener listener;
     private Context context;
 
-    public XeMayAdapter(Context context, List<XeMay> xeMayList, OnXeMayClickListener listener) {
+    public XeMayAdapter(Context context, List<DienThoai_07122024> xeDienThoaiList, OnDienThoaiClickListener listener) {
         this.context = context;
-        this.xeMayList = xeMayList;
+        this.xeDienThoaiList = xeDienThoaiList;
         this.listener = listener;
     }
 
-    public interface OnXeMayClickListener {
-        void onXeMayClick(XeMay xeMay);
-        void onLongClick(XeMay xeMay);
-        void onDeleteClick(XeMay xeMay);
+    public interface OnDienThoaiClickListener {
+        void onDienThoaiClick(DienThoai_07122024 xeMay);
+        void onDeleteClick(DienThoai_07122024 xeMay);
     }
 
     @NonNull
@@ -42,23 +41,19 @@ public class XeMayAdapter extends RecyclerView.Adapter<XeMayAdapter.PetViewHolde
     @Override
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         holder.xeMayImage.setImageResource(R.drawable.dog);
-        holder.xeMayName.setText(xeMayList.get(position).getTenXe());
-        holder.xeMayPrice.setText(String.valueOf(xeMayList.get(position).getGiaBan()));
-        holder.xeMayColor.setText(xeMayList.get(position).getMauSac());
+        holder.xeMayName.setText(xeDienThoaiList.get(position).getTenDienThoai());
+        holder.xeMayPrice.setText(String.valueOf(xeDienThoaiList.get(position).getTrangThai()));
+        holder.xeMayColor.setText(xeDienThoaiList.get(position).getNgayNhap());
         holder.delete.setOnClickListener(v -> {
-            listener.onDeleteClick(xeMayList.get(position));
+            listener.onDeleteClick(xeDienThoaiList.get(position));
         });
-        holder.itemView.setOnClickListener(v -> listener.onXeMayClick(xeMayList.get(position)));
-        holder.itemView.setOnLongClickListener(v -> {
-            listener.onLongClick(xeMayList.get(position));
-            return true;
-        });
+        holder.itemView.setOnClickListener(v -> listener.onDienThoaiClick(xeDienThoaiList.get(position)));
     }
 
 
     @Override
     public int getItemCount() {
-        return xeMayList.size();
+        return xeDienThoaiList.size();
     }
 
     public static class PetViewHolder extends RecyclerView.ViewHolder {

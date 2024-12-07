@@ -1,53 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
-    android:padding="20dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
     <TextView
-        android:text="Thêm thú cưng"
-        android:textSize="35sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Thêm điện thoại"
+        android:textSize="35sp" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_name"
-            android:hint="Tên"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="60dp"
+            android:hint="Tên điện thoại"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_description"
-            android:hint="Mô tả"
+            android:id="@+id/edt_color"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="60dp"
+            android:hint="Màu sắc"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_species"
-            android:hint="Chủng loai"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginVertical="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_price"
-            android:hint="Giá"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="60dp"
+            android:hint="Giá"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_image"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint="Ảnh"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_description"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:gravity="start"
+            android:hint="Mô tả"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

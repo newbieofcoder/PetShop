@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import hoanglv.fpoly.petshop.Adapter.XeMayAdapter;
-import hoanglv.fpoly.petshop.DTO.XeMay;
+import hoanglv.fpoly.petshop.DTO.DienThoai_07122024;
 import hoanglv.fpoly.petshop.services.APIService;
 import hoanglv.fpoly.petshop.R;
 import retrofit2.Call;
@@ -36,7 +36,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private XeMayAdapter xeMayAdapter;
-    private List<XeMay> xeMayList;
+    private List<DienThoai_07122024> xeMayList;
     private ImageView imgAdd;
     private EditText txtSearch;
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -63,11 +63,11 @@ public class HomeFragment extends Fragment {
         txtSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 String key = txtSearch.getText().toString();
-                Call<List<XeMay>> callSearch = apiService.searchXeMay(key);
-                callSearch.enqueue(new Callback<List<XeMay>>() {
+                Call<List<DienThoai_07122024>> callSearch = apiService.searchXeMay(key);
+                callSearch.enqueue(new Callback<List<DienThoai_07122024>>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
-                    public void onResponse(Call<List<XeMay>> call, Response<List<XeMay>> response) {
+                    public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                         if (response.isSuccessful()) {
                             xeMayList.clear();
                             xeMayList.addAll(response.body());
@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<XeMay>> call, Throwable throwable) {
+                    public void onFailure(Call<List<DienThoai_07122024>> call, Throwable throwable) {
                         Log.e("Main", "onFailure: " + throwable.getMessage());
                     }
                 });
@@ -90,25 +90,27 @@ public class HomeFragment extends Fragment {
         imgAdd.setOnClickListener(v -> {
             View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_item, null);
             EditText edtName = view1.findViewById(R.id.edt_name);
-            EditText edtDescription = view1.findViewById(R.id.edt_description);
+            EditText edtColor = view1.findViewById(R.id.edt_color);
             EditText edtPrice = view1.findViewById(R.id.edt_price);
-            EditText edtSpecies = view1.findViewById(R.id.edt_species);
+            EditText edtDescription = view1.findViewById(R.id.edt_description);
+            EditText edtImage = view1.findViewById(R.id.edt_image);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                     .setView(view1)
                     .setCancelable(true);
             builder.setPositiveButton("OK", (dialog, which) -> {
                 String name = edtName.getText().toString();
+                String color = edtColor.getText().toString();
                 String description = edtDescription.getText().toString();
                 String price = edtPrice.getText().toString();
-                String species = edtSpecies.getText().toString();
-                if (!name.isEmpty() && !description.isEmpty() && !price.isEmpty() && !species.isEmpty()) {
+                String image = edtImage.getText().toString();
+                if (!name.isEmpty() && !description.isEmpty() && !price.isEmpty() && !color.isEmpty()) {
                     long priceLong = Long.parseLong(price);
-                    XeMay newXemay = new XeMay(name, description, priceLong, species, "");
-                    Call<List<XeMay>> callAddPet = apiService.addXeMay(newXemay);
-                    callAddPet.enqueue(new Callback<List<XeMay>>() {
+                    DienThoai_07122024 newXemay = new DienThoai_07122024(name, color, priceLong, description, "");
+                    Call<List<DienThoai_07122024>> callAddPet = apiService.addXeMay(newXemay);
+                    callAddPet.enqueue(new Callback<List<DienThoai_07122024>>() {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
-                        public void onResponse(Call<List<XeMay>> call, Response<List<XeMay>> response) {
+                        public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                             if (response.isSuccessful()) {
                                 xeMayList.clear();
                                 xeMayList.addAll(response.body());
@@ -120,7 +122,7 @@ public class HomeFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<List<XeMay>> call, Throwable throwable) {
+                        public void onFailure(Call<List<DienThoai_07122024>> call, Throwable throwable) {
                             Log.e("Them", "onFailure: " + throwable.getMessage());
                         }
                     });
@@ -138,56 +140,56 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        Call<List<XeMay>> call = apiService.getXeMay();
-        call.enqueue(new Callback<List<XeMay>>() {
+        Call<List<DienThoai_07122024>> call = apiService.getXeMay();
+        call.enqueue(new Callback<List<DienThoai_07122024>>() {
             @Override
             public void onResponse
-                    (Call<List<XeMay>> call, Response<List<XeMay>> response) {
+                    (Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                 if (response.isSuccessful()) {
                     xeMayList = response.body();
-                    xeMayAdapter = new XeMayAdapter(getActivity(), xeMayList, new XeMayAdapter.OnXeMayClickListener() {
+                    xeMayAdapter = new XeMayAdapter(getActivity(), xeMayList, new XeMayAdapter.OnDienThoaiClickListener() {
                         @Override
-                        public void onXeMayClick(XeMay pet) {
-                        }
-
-                        @Override
-                        public void onLongClick(XeMay pet) {
+                        public void onDienThoaiClick(DienThoai_07122024 xeMay) {
                             View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_item, null);
                             EditText edtName = view1.findViewById(R.id.edt_name);
-                            EditText edtDescription = view1.findViewById(R.id.edt_description);
+                            EditText edtColor = view1.findViewById(R.id.edt_color);
                             EditText edtPrice = view1.findViewById(R.id.edt_price);
+                            EditText edtDescription = view1.findViewById(R.id.edt_description);
+                            EditText edtImage = view1.findViewById(R.id.edt_image);
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                                     .setView(view1)
                                     .setCancelable(true);
-                            edtName.setText(pet.getTenXe());
-                            edtDescription.setText(pet.getMauSac());
-                            edtPrice.setText(String.valueOf(pet.getGiaBan()));
+                            edtName.setText(xeMay.getTenDienThoai());
+                            edtColor.setText(xeMay.getNgayNhap());
+                            edtPrice.setText(String.valueOf(xeMay.getTrangThai()));
+                            edtDescription.setText(xeMay.getMoTa());
+                            edtImage.setText(xeMay.getHinhAnh());
                             builder.setPositiveButton("OK", (dialog, which) -> {
                                 String newName = edtName.getText().toString();
                                 String newDescription = edtDescription.getText().toString();
                                 String newPrice = edtPrice.getText().toString();
                                 if (!newName.isEmpty() && !newDescription.isEmpty() && !newPrice.isEmpty()) {
                                     long newPriceLong = Long.parseLong(newPrice);
-                                    pet.setTenXe(newName);
-                                    pet.setMauSac(newDescription);
-                                    pet.setGiaBan(newPriceLong);
-                                    Call<List<XeMay>> callUpdatePet = apiService.updateXeMay(pet);
-                                    callUpdatePet.enqueue(new Callback<List<XeMay>>() {
+                                    xeMay.setTenDienThoai(newName);
+                                    xeMay.setNgayNhap(newDescription);
+                                    xeMay.setTrangThai(newPriceLong);
+                                    Call<List<DienThoai_07122024>> callUpdatePet = apiService.updateXeMay(xeMay);
+                                    callUpdatePet.enqueue(new Callback<List<DienThoai_07122024>>() {
                                         @SuppressLint("NotifyDataSetChanged")
                                         @Override
-                                        public void onResponse(Call<List<XeMay>> call, Response<List<XeMay>> response) {
+                                        public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                                             if (response.isSuccessful()) {
                                                 xeMayList.clear();
                                                 xeMayList.addAll(response.body());
                                                 xeMayAdapter.notifyDataSetChanged();
-                                                Toast.makeText(getActivity(), "Cập nhật thú cưng thành công", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), "Cập nhật xe máy thành công", Toast.LENGTH_SHORT).show();
                                             } else {
-                                                Toast.makeText(getActivity(), "Lỗi khi cập nhật thú cưng", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), "Lỗi khi xe máy thú cưng", Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
                                         @Override
-                                        public void onFailure(Call<List<XeMay>> call, Throwable throwable) {
+                                        public void onFailure(Call<List<DienThoai_07122024>> call, Throwable throwable) {
                                             Log.e("Update", "onFailure: " + throwable.getMessage());
                                         }
                                     });
@@ -195,22 +197,26 @@ public class HomeFragment extends Fragment {
                                     Toast.makeText(getActivity(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                            builder.setNegativeButton("Cancel", (dialog, which) -> {
+                                dialog.dismiss();
+                            });
                             Dialog dialog = builder.create();
                             dialog.show();
                         }
 
+
                         @Override
-                        public void onDeleteClick(XeMay pet) {
+                        public void onDeleteClick(DienThoai_07122024 pet) {
                             String id = pet.get_id();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                                     .setTitle("Xóa thú cưng?")
                                     .setMessage("Bạn có chắc chắn muốn xóa thú cưng này?")
                                     .setPositiveButton("OK", (dialog, which) -> {
-                                        Call<List<XeMay>> callDeletePet = apiService.deleteXeMay(id);
-                                        callDeletePet.enqueue(new Callback<List<XeMay>>() {
+                                        Call<List<DienThoai_07122024>> callDeletePet = apiService.deleteXeMay(id);
+                                        callDeletePet.enqueue(new Callback<List<DienThoai_07122024>>() {
                                             @SuppressLint("NotifyDataSetChanged")
                                             @Override
-                                            public void onResponse(Call<List<XeMay>> call, Response<List<XeMay>> response) {
+                                            public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                                                 xeMayList.clear();
                                                 xeMayList.addAll(response.body());
                                                 xeMayAdapter.notifyDataSetChanged();
@@ -218,7 +224,7 @@ public class HomeFragment extends Fragment {
                                             }
 
                                             @Override
-                                            public void onFailure(Call<List<XeMay>> call, Throwable throwable) {
+                                            public void onFailure(Call<List<DienThoai_07122024>> call, Throwable throwable) {
                                                 Log.e("Xoa", "onFailure: " + throwable.getMessage());
                                             }
                                         });
@@ -235,7 +241,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<XeMay>> call, Throwable throwable) {
+            public void onFailure(Call<List<DienThoai_07122024>> call, Throwable throwable) {
                 Log.e("GetXeMay", "onFailure: " + throwable.getMessage());
             }
         });

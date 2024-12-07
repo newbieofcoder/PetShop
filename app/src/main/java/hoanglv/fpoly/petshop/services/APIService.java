@@ -2,7 +2,7 @@ package hoanglv.fpoly.petshop.services;
 
 import java.util.List;
 
-import hoanglv.fpoly.petshop.DTO.XeMay;
+import hoanglv.fpoly.petshop.DTO.DienThoai_07122024;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -10,24 +10,23 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface APIService {
-    String DOMAIN = "http://192.168.1.204:3000/";
+    String DOMAIN = "http://10.24.4.243:3000/";
 
-    @GET("api/xe_may_list")
-    Call<List<XeMay>> getXeMay();
+    @GET("api/")
+    Call<List<DienThoai_07122024>> getXeMay();
 
-    @POST("api/add_xe_may")
-    Call<List<XeMay>> addXeMay(@Body XeMay xeMay);
+    @POST("api/add_dien_thoai")
+    Call<List<DienThoai_07122024>> addXeMay(@Body DienThoai_07122024 xeMay);
 
-    @PUT("api/update_xe_may")
-    Call<List<XeMay>> updateXeMay(@Body XeMay xeMay);
+    @PUT("api/update_dien_thoai")
+    Call<List<DienThoai_07122024>> updateXeMay(@Body DienThoai_07122024 xeMay);
 
-    @DELETE("api/delete_xe_may/{id}")
-    Call<List<XeMay>> deleteXeMay(@Path("id") String id);
+    @DELETE("api/delete_dien_thoai/{id}")
+    Call<List<DienThoai_07122024>> deleteXeMay(@Path("id") String id);
 
-    @GET("api/search_xe_may")
-    Call<List<XeMay>> searchXeMay(@Query("key") String key);
+    @GET("api/search_dien_thoai/{ten_dien_thoai}")
+    Call<List<DienThoai_07122024>> searchXeMay(@Path("ten_dien_thoai") String ten_xe);
 
 }

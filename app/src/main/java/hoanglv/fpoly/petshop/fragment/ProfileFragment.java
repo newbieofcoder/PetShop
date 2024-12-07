@@ -22,8 +22,6 @@ public class ProfileFragment extends Fragment {
     private TextView txtName;
     private TextView txtGender;
     private TextView txtEmail;
-    private final FirebaseAuth auth = FirebaseAuth.getInstance();
-    private final FirebaseUser user = auth.getCurrentUser();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,8 +33,6 @@ public class ProfileFragment extends Fragment {
         txtName = view.findViewById(R.id.txt_name);
         txtGender = view.findViewById(R.id.txt_gender);
         txtEmail = view.findViewById(R.id.txt_email);
-        assert user != null;
-        txtEmail.setText(user.getEmail());
         btnLogout.setOnClickListener(v -> {
             requireActivity().finish();
         });
