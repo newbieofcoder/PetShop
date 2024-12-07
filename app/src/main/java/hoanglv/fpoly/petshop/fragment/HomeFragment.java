@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import hoanglv.fpoly.petshop.Adapter.XeMayAdapter;
+import hoanglv.fpoly.petshop.Adapter.DienThoaiAdapter;
 import hoanglv.fpoly.petshop.DTO.DienThoai_07122024;
 import hoanglv.fpoly.petshop.services.APIService;
 import hoanglv.fpoly.petshop.R;
@@ -35,8 +35,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
-    private XeMayAdapter xeMayAdapter;
-    private List<DienThoai_07122024> xeMayList;
+    private DienThoaiAdapter dienThoaiAdapter;
+    private List<DienThoai_07122024> dienThoaiList;
     private ImageView imgAdd;
     private EditText txtSearch;
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -69,9 +69,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                         if (response.isSuccessful()) {
-                            xeMayList.clear();
-                            xeMayList.addAll(response.body());
-                            xeMayAdapter.notifyDataSetChanged();
+                            dienThoaiList.clear();
+                            dienThoaiList.addAll(response.body());
+                            dienThoaiAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getActivity(), "Lỗi khi tìm kiếm thú cưng", Toast.LENGTH_SHORT).show();
                         }
@@ -112,12 +112,12 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                             if (response.isSuccessful()) {
-                                xeMayList.clear();
-                                xeMayList.addAll(response.body());
-                                xeMayAdapter.notifyDataSetChanged();
-                                Toast.makeText(getActivity(), "Thêm xe máy thành công", Toast.LENGTH_SHORT).show();
+                                dienThoaiList.clear();
+                                dienThoaiList.addAll(response.body());
+                                dienThoaiAdapter.notifyDataSetChanged();
+                                Toast.makeText(getActivity(), "Thêm điện thoại thành công", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getActivity(), "Lỗi khi thêm xe máy", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Lỗi khi thêm điện thoại", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -146,13 +146,13 @@ public class HomeFragment extends Fragment {
             public void onResponse
                     (Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                 if (response.isSuccessful()) {
-                    xeMayList = response.body();
-                    xeMayAdapter = new XeMayAdapter(getActivity(), xeMayList, new XeMayAdapter.OnDienThoaiClickListener() {
+                    dienThoaiList = response.body();
+                    dienThoaiAdapter = new DienThoaiAdapter(getActivity(), dienThoaiList, new DienThoaiAdapter.OnDienThoaiClickListener() {
                         @Override
                         public void onDienThoaiClick(DienThoai_07122024 xeMay) {
                             View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_edit_item, null);
                             EditText edtName = view1.findViewById(R.id.edt_name);
-                            EditText edtColor = view1.findViewById(R.id.edt_color);
+                            EditText edtNgayNhap = view1.findViewById(R.id.edt_color);
                             EditText edtPrice = view1.findViewById(R.id.edt_price);
                             EditText edtDescription = view1.findViewById(R.id.edt_description);
                             EditText edtImage = view1.findViewById(R.id.edt_image);
@@ -160,7 +160,7 @@ public class HomeFragment extends Fragment {
                                     .setView(view1)
                                     .setCancelable(true);
                             edtName.setText(xeMay.getTenDienThoai());
-                            edtColor.setText(xeMay.getNgayNhap());
+                            edtNgayNhap.setText(xeMay.getNgayNhap());
                             edtPrice.setText(String.valueOf(xeMay.getTrangThai()));
                             edtDescription.setText(xeMay.getMoTa());
                             edtImage.setText(xeMay.getHinhAnh());
@@ -168,10 +168,13 @@ public class HomeFragment extends Fragment {
                                 String newName = edtName.getText().toString();
                                 String newDescription = edtDescription.getText().toString();
                                 String newPrice = edtPrice.getText().toString();
-                                if (!newName.isEmpty() && !newDescription.isEmpty() && !newPrice.isEmpty()) {
+                                String newNgayNhap = edtNgayNhap.getText().toString();
+                                if (!newName.isEmpty() && !newDescription.isEmpty() && !newPrice.isEmpty() && !newNgayNhap.isEmpty()) {
                                     long newPriceLong = Long.parseLong(newPrice);
                                     xeMay.setTenDienThoai(newName);
-                                    xeMay.setNgayNhap(newDescription);
+                                    xeMay.setMoTa(newDescription);
+                                    xeMay.setHinhAnh("");
+                                    xeMay.setNgayNhap(newNgayNhap);
                                     xeMay.setTrangThai(newPriceLong);
                                     Call<List<DienThoai_07122024>> callUpdatePet = apiService.updateXeMay(xeMay);
                                     callUpdatePet.enqueue(new Callback<List<DienThoai_07122024>>() {
@@ -179,12 +182,12 @@ public class HomeFragment extends Fragment {
                                         @Override
                                         public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
                                             if (response.isSuccessful()) {
-                                                xeMayList.clear();
-                                                xeMayList.addAll(response.body());
-                                                xeMayAdapter.notifyDataSetChanged();
-                                                Toast.makeText(getActivity(), "Cập nhật xe máy thành công", Toast.LENGTH_SHORT).show();
+                                                dienThoaiList.clear();
+                                                dienThoaiList.addAll(response.body());
+                                                dienThoaiAdapter.notifyDataSetChanged();
+                                                Toast.makeText(getActivity(), "Cập nhật điện thoại thành công", Toast.LENGTH_SHORT).show();
                                             } else {
-                                                Toast.makeText(getActivity(), "Lỗi khi xe máy thú cưng", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), "Lỗi khi điện thoại thú cưng", Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
@@ -209,18 +212,18 @@ public class HomeFragment extends Fragment {
                         public void onDeleteClick(DienThoai_07122024 pet) {
                             String id = pet.get_id();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                                    .setTitle("Xóa thú cưng?")
-                                    .setMessage("Bạn có chắc chắn muốn xóa thú cưng này?")
+                                    .setTitle("Xóa điện thoại?")
+                                    .setMessage("Bạn có chắc chắn muốn xóa điện thoại này?")
                                     .setPositiveButton("OK", (dialog, which) -> {
                                         Call<List<DienThoai_07122024>> callDeletePet = apiService.deleteXeMay(id);
                                         callDeletePet.enqueue(new Callback<List<DienThoai_07122024>>() {
                                             @SuppressLint("NotifyDataSetChanged")
                                             @Override
                                             public void onResponse(Call<List<DienThoai_07122024>> call, Response<List<DienThoai_07122024>> response) {
-                                                xeMayList.clear();
-                                                xeMayList.addAll(response.body());
-                                                xeMayAdapter.notifyDataSetChanged();
-                                                Toast.makeText(getActivity(), "Xóa xe máy thành công", Toast.LENGTH_SHORT).show();
+                                                dienThoaiList.clear();
+                                                dienThoaiList.addAll(response.body());
+                                                dienThoaiAdapter.notifyDataSetChanged();
+                                                Toast.makeText(getActivity(), "Xóa điện thoại  thành công", Toast.LENGTH_SHORT).show();
                                             }
 
                                             @Override
@@ -236,7 +239,7 @@ public class HomeFragment extends Fragment {
                             dialog.show();
                         }
                     });
-                    recyclerView.setAdapter(xeMayAdapter);
+                    recyclerView.setAdapter(dienThoaiAdapter);
                 }
             }
 

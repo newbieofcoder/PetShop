@@ -15,12 +15,12 @@ import java.util.List;
 import hoanglv.fpoly.petshop.DTO.DienThoai_07122024;
 import hoanglv.fpoly.petshop.R;
 
-public class XeMayAdapter extends RecyclerView.Adapter<XeMayAdapter.PetViewHolder> {
+public class DienThoaiAdapter extends RecyclerView.Adapter<DienThoaiAdapter.PetViewHolder> {
     private List<DienThoai_07122024> xeDienThoaiList;
     private final OnDienThoaiClickListener listener;
     private Context context;
 
-    public XeMayAdapter(Context context, List<DienThoai_07122024> xeDienThoaiList, OnDienThoaiClickListener listener) {
+    public DienThoaiAdapter(Context context, List<DienThoai_07122024> xeDienThoaiList, OnDienThoaiClickListener listener) {
         this.context = context;
         this.xeDienThoaiList = xeDienThoaiList;
         this.listener = listener;
