@@ -1,7 +1,7 @@
 package hoanglv.fpoly.petshop.ui;
 
 import android.os.Bundle;
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import hoanglv.fpoly.petshop.Adapter.ViewPager2Adapter;
@@ -31,10 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private void onNavBottomItemSelected(int id) {
         if(id == R.id.nav_home) {
             viewPager2.setCurrentItem(0);
-        }  else if(id == R.id.nav_category) {
-            viewPager2.setCurrentItem(1);
         } else {
-            viewPager2.setCurrentItem(2);
+            viewPager2.setCurrentItem(1);
         }
     }
 
@@ -50,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         bottomNav.getMenu().findItem(R.id.nav_home).setChecked(true);
                         break;
                     case 1:
-                        bottomNav.getMenu().findItem(R.id.nav_category).setChecked(true);
-                        break;
-                    case 2:
                         bottomNav.getMenu().findItem(R.id.nav_profile).setChecked(true);
                         break;
                 }

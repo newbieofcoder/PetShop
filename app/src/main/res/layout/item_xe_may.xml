@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:layout_marginTop="10dp"
+    android:layout_marginHorizontal="10dp"
     android:orientation="horizontal"
     android:padding="8dp">
     <ImageView
         android:layout_weight="1"
-        android:id="@+id/pet_image_1"
+        android:id="@+id/xe_may_image_1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitCenter" />
@@ -21,7 +23,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/txt_pet_name"
+            android:id="@+id/txt_xe_may_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name"
@@ -30,7 +32,14 @@
 
         <TextView
             android:textSize="16sp"
-            android:id="@+id/txt_pet_price"
+            android:id="@+id/txt_xe_may_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="description" />
+
+        <TextView
+            android:textSize="16sp"
+            android:id="@+id/txt_xe_may_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="description" />
